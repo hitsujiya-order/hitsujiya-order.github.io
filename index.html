@@ -330,6 +330,37 @@
       z-index:1;
     }
 
+    .optionSelect{
+      width:100%;
+      margin-top:8px;
+      height:38px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,248,240,.08);
+      color:var(--text);
+      padding:0 12px;
+      font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+      font-size:13px;
+      position:relative;
+      z-index:1;
+      outline:none;
+      appearance:none;
+      -webkit-appearance:none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, var(--gold) 50%),
+        linear-gradient(135deg, var(--gold) 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) calc(50% - 3px),
+        calc(100% - 12px) calc(50% - 3px);
+      background-size:6px 6px, 6px 6px;
+      background-repeat:no-repeat;
+    }
+
+    .optionSelect option{
+      color:#111;
+      background:#fff;
+    }
+
     .stepRow{
       margin-top:auto;
       display:grid;
@@ -501,21 +532,21 @@
     .drawer.show{ transform:translateX(0); }
 
     .drawerHead{
-     display:flex;
-     align-items:center;
-     justify-content:space-between;
-     padding:6px 4px 12px 28px;
-     border-bottom:1px solid rgba(255,245,230,.10);
-     margin-bottom:10px;
-     margin-top:6px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:6px 4px 12px 28px;
+      border-bottom:1px solid rgba(255,245,230,.10);
+      margin-bottom:10px;
+      margin-top:6px;
     }
 
     .drawerTitle{
-     font-weight:1000;
-     color:var(--gold);
-     letter-spacing:.08em;
-     text-shadow:0 2px 12px rgba(200,164,90,.28);
-     margin-left:24px;
+      font-weight:1000;
+      color:var(--gold);
+      letter-spacing:.08em;
+      text-shadow:0 2px 12px rgba(200,164,90,.28);
+      margin-left:24px;
     }
 
     .drawerClose{
@@ -740,6 +771,11 @@
         font-size:clamp(18px,4.9vw,24px);
         white-space:normal;
       }
+
+      .optionSelect{
+        height:36px;
+        font-size:12px;
+      }
     }
   </style>
 </head>
@@ -836,37 +872,43 @@
 
     const CATEGORIES = [
       { id:"beer", label:"ビール" },
-      { id:"high", label:"ハイボール" },
       { id:"sour", label:"サワー" },
       { id:"cock", label:"カクテル" },
+      { id:"high", label:"ハイボール" },
       { id:"wine", label:"ワイン" },
+      { id:"shochu", label:"焼酎・日本酒" },
       { id:"soft", label:"ソフトドリンク" }
     ];
 
     const MENU = [
-      { id:"beer_classic", category:"beer", name:"クラシック", desc:"" },
       { id:"beer_black", category:"beer", name:"黒ラベル", desc:"" },
 
-      { id:"high_std", category:"high", name:"ハイボール", desc:"" },
-      { id:"high_coke", category:"high", name:"コークハイ", desc:"" },
-      { id:"high_ginger", category:"high", name:"ジンジャーハイ", desc:"" },
-
       { id:"sour_lemon", category:"sour", name:"レモンサワー", desc:"" },
-      { id:"sour_grape", category:"sour", name:"グレープフルーツサワー", desc:"" },
-      { id:"sour_ume", category:"sour", name:"梅サワー", desc:"" },
+      { id:"sour_lime", category:"sour", name:"ライムサワー", desc:"" },
+      { id:"sour_ume", category:"sour", name:"梅酒サワー（水割り）", desc:"" },
+      { id:"sour_oolong", category:"sour", name:"ウーロンハイ", desc:"" },
 
-      { id:"cock_cassis_orange", category:"cock", name:"カシスオレンジ", desc:"" },
       { id:"cock_fuzzy", category:"cock", name:"ファジーネーブル", desc:"" },
-      { id:"cock_cassis_soda", category:"cock", name:"カシスソーダ", desc:"" },
+      { id:"cock_reggae", category:"cock", name:"レゲエパンチ", desc:"" },
+      { id:"cock_peach_ume", category:"cock", name:"ピーチ梅酒", desc:"" },
+      { id:"cock_rum_high", category:"cock", name:"ラムハイボール", desc:"" },
+      { id:"cock_coke", category:"cock", name:"コーク", desc:"" },
+      { id:"cock_back", category:"cock", name:"バック", desc:"" },
+
+      { id:"high_dewars", category:"high", name:"デュワーズハイボール", desc:"" },
+      { id:"high_water", category:"high", name:"デュワーズ水割り", desc:"" },
 
       { id:"wine_red", category:"wine", name:"赤ワイン", desc:"" },
       { id:"wine_white", category:"wine", name:"白ワイン", desc:"" },
 
-      { id:"soft_calpis", category:"soft", name:"カルピス", desc:"" },
-      { id:"soft_oolong", category:"soft", name:"ウーロン茶", desc:"" },
+      { id:"shochu_imo", category:"shochu", name:"おすすめ芋焼酎", desc:"", options:["ロック","水割り","ソーダ"] },
+      { id:"shochu_mugi", category:"shochu", name:"おすすめ麦焼酎", desc:"", options:["ロック","水割り","ソーダ"] },
+      { id:"nihonshu", category:"shochu", name:"おすすめ日本酒", desc:"" },
+
+      { id:"soft_orange", category:"soft", name:"オレンジジュース", desc:"" },
       { id:"soft_cola", category:"soft", name:"コーラ", desc:"" },
-      { id:"soft_ginger", category:"soft", name:"ジンジャーエール", desc:"" },
-      { id:"soft_orange", category:"soft", name:"オレンジジュース", desc:"" }
+      { id:"soft_ginger", category:"soft", name:"ジンジャエール", desc:"" },
+      { id:"soft_oolong", category:"soft", name:"ウーロン茶", desc:"" }
     ];
 
     const qs = new URLSearchParams(location.search);
@@ -956,17 +998,26 @@
       addQty[id] = Math.max(1, Math.min(10, Number(v) || 1));
     }
 
+    function getSelectedOption(id){
+      const el = menuEl.querySelector(`[data-option="${CSS.escape(id)}"]`);
+      return el ? el.value : "";
+    }
+
     function addToCart(id){
       const m = MENU.find(x => x.id === id);
       if (!m) return;
 
       const qty = getAddQty(id);
-      if (!cart[id]) cart[id] = { id:m.id, name:m.name, qty:0 };
-      cart[id].qty += qty;
+      const selectedOption = getSelectedOption(id);
+      const cartKey = selectedOption ? `${id}__${selectedOption}` : id;
+      const displayName = selectedOption ? `${m.name}｜${selectedOption}` : m.name;
+
+      if (!cart[cartKey]) cart[cartKey] = { id:cartKey, name:displayName, qty:0 };
+      cart[cartKey].qty += qty;
 
       saveCart();
       updateCartCount();
-      toast(`${m.name} ×${qty} をカートに入れました`);
+      toast(`${displayName} ×${qty} をカートに入れました`);
 
       const card = menuEl.querySelector(`.itemCard[data-item="${CSS.escape(id)}"]`);
       if (card){
@@ -1142,6 +1193,11 @@
 
         const grid = items.map(m => {
           const qty = getAddQty(m.id);
+          const optionHtml = Array.isArray(m.options) ? `
+            <select class="optionSelect" data-option="${m.id}">
+              ${m.options.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
+            </select>
+          ` : "";
 
           return `
             <div class="itemCard" data-item="${m.id}">
@@ -1150,6 +1206,7 @@
               <div style="min-width:0;">
                 <h3>${safeText(m.name, "-")}</h3>
                 <p class="desc">${safeText(m.desc, "")}</p>
+                ${optionHtml}
               </div>
 
               <div class="stepRow">
