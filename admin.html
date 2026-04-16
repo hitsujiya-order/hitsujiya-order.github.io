@@ -884,8 +884,6 @@
       if (!btn) return;
 
       const id = btn.getAttribute("data-done");
-      const ok = confirm("この注文を完了済みに移動しますか？");
-      if (!ok) return;
       await markCompleted(id);
     });
 
